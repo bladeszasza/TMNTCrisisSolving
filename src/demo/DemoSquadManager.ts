@@ -554,78 +554,70 @@ export class DemoSquadManager {
       console.log('\n🌟 Starting natural multi-agent conversation...');
       console.log(`📝 User input: "${content}"`);
       
-      // Start the natural conversation
-      const conversationId = await this.naturalConversationManager.startNaturalConversation(content, 'mission-planning');
-      
-      // Poll for new messages and stream them as they arrive
-      const startTime = Date.now();
-      const maxDuration = 15000; // 15 seconds max
-      const pollInterval = 500; // Check every 500ms
-      let lastMessageCount = 0;
-      
-      const pollForMessages = async () => {
-        while (Date.now() - startTime < maxDuration) {
-          // Get current conversation messages
-          const naturalMessages = this.naturalConversationManager.getConversationMessages(conversationId);
-          const agentMessages = naturalMessages.filter(msg => msg.sender !== 'user');
+      // Override the console.log to capture real-time messages
+      const originalConsoleLog = console.log;
+      const captureLog = (message: string) => {
+        originalConsoleLog(message);
+        
+        // Check if this is an agent response (🗣️ format)
+        const match = message.match(/^🗣️\s+(\w+):\s+(.+)$/);
+        if (match) {
+          const [, agentId, messageContent] = match;
           
-          // Check if we have new messages to stream
-          if (agentMessages.length > lastMessageCount) {
-            // Stream only the new messages
-            for (let i = lastMessageCount; i < agentMessages.length; i++) {
-              const message = agentMessages[i];
-              
-              const agentNames: { [key: string]: string } = {
-                'leonardo': 'Leonardo',
-                'donatello': 'Donatello', 
-                'raphael': 'Raphael',
-                'michelangelo': 'Michelangelo'
-              };
+          const agentNames: { [key: string]: string } = {
+            'Leonardo': 'Leonardo',
+            'Donatello': 'Donatello', 
+            'Raphael': 'Raphael',
+            'Michelangelo': 'Michelangelo'
+          };
 
-              const agentColors: { [key: string]: string } = {
-                'leonardo': '#0066cc',
-                'donatello': '#9933cc',
-                'raphael': '#cc3333',
-                'michelangelo': '#ff9900'
-              };
+          const agentColors: { [key: string]: string } = {
+            'Leonardo': '#0066cc',
+            'Donatello': '#9933cc',
+            'Raphael': '#cc3333',
+            'Michelangelo': '#ff9900'
+          };
 
-              const demoMessage: DemoMessage = {
-                id: this.generateMessageId(),
-                sender: message.sender,
-                content: message.content,
-                timestamp: new Date().toISOString(),
-                agentName: agentNames[message.sender] || message.sender,
-                agentColor: agentColors[message.sender] || '#666666'
-              };
+          const demoMessage: DemoMessage = {
+            id: this.generateMessageId(),
+            sender: agentId.toLowerCase(),
+            content: messageContent,
+            timestamp: new Date().toISOString(),
+            agentName: agentNames[agentId] || agentId,
+            agentColor: agentColors[agentId] || '#666666'
+          };
 
-              this.conversationHistory.push(demoMessage);
-              onMessage(demoMessage);
-              
-              // Also emit this as a protocol event so it appears in the envelope section
-              this.emitProtocolEvent('envelope_created', {
-                envelope: {
-                  id: message.id || this.generateMessageId(),
-                  type: 'dialog',
-                  sender: message.sender,
-                  timestamp: message.timestamp || new Date().toISOString(),
-                  payload: {
-                    text: message.content,
-                    agentName: agentNames[message.sender] || message.sender
-                  }
-                }
-              });
+          this.conversationHistory.push(demoMessage);
+          onMessage(demoMessage);
+          
+          // Also emit this as a protocol event so it appears in the envelope section
+          this.emitProtocolEvent('envelope_created', {
+            envelope: {
+              id: this.generateMessageId(),
+              type: 'dialog',
+              sender: agentId.toLowerCase(),
+              timestamp: new Date().toISOString(),
+              payload: {
+                text: messageContent,
+                agentName: agentNames[agentId] || agentId
+              }
             }
-            lastMessageCount = agentMessages.length;
-          }
-          
-          // Wait before next poll
-          await new Promise(resolve => setTimeout(resolve, pollInterval));
+          });
         }
       };
       
-      await pollForMessages();
+      // Temporarily override console.log to capture messages
+      console.log = captureLog;
       
-      console.log(`✅ Natural conversation completed with ${lastMessageCount} agent contributions`);
+      try {
+        // Start the natural conversation
+        const conversationId = await this.naturalConversationManager.startNaturalConversation(content, 'mission-planning');
+        
+        console.log(`✅ Natural conversation completed with ${this.conversationHistory.length} agent contributions`);
+      } finally {
+        // Always restore original console.log
+        console.log = originalConsoleLog;
+      }
       
     } catch (error) {
       console.error('Error in natural conversation:', error);
