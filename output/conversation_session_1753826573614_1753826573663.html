@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEENAGE MUTANT NINJA TURTLES: CRISIS IN BUDAPEST</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@700&display=swap');
+        
+        body {
+            background: #2c2c2c;
+            padding: 20px;
+            font-family: 'Comic Neue', cursive;
+            margin: 0;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(255, 0, 0, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(0, 100, 255, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 50% 50%, rgba(255, 255, 0, 0.05) 0%, transparent 30%);
+        }
+        
+        .comic-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border: 6px solid #222;
+            box-shadow: 
+                0 0 0 3px #ffcc00,
+                0 0 30px rgba(255, 0, 0, 0.7),
+                inset 0 0 50px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .comic-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                linear-gradient(transparent 50%, rgba(0,0,0,0.05) 50%),
+                linear-gradient(90deg, transparent 50%, rgba(0,0,0,0.05) 50%);
+            background-size: 4px 4px;
+            pointer-events: none;
+            z-index: 10;
+        }
+        
+        .comic-title {
+            font-family: 'Bangers', cursive;
+            font-size: 48px;
+            text-align: center;
+            color: #ff0000;
+            text-shadow: 
+                4px 4px 0 #000,
+                6px 6px 0 rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+            letter-spacing: 3px;
+            position: relative;
+            transform: rotate(-2deg);
+            padding: 10px;
+            background: linear-gradient(to bottom, #ff9900, #ff3300);
+            border: 4px solid #000;
+            border-radius: 15px;
+            box-shadow: 
+                0 0 0 4px #ffcc00,
+                8px 8px 0 rgba(0,0,0,0.3);
+        }
+        
+        .session-info {
+            background: #e6f3ff;
+            border: 3px solid #0066cc;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 3px 3px 0 rgba(0,0,0,0.2);
+        }
+        
+        .session-info h3 {
+            font-family: 'Bangers', cursive;
+            color: #0066cc;
+            margin: 0 0 10px 0;
+            font-size: 24px;
+        }
+        
+        .session-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            font-size: 14px;
+        }
+        
+        .crisis-alert {
+            background: #ffcc00;
+            border: 4px solid #ff0000;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 
+                8px 8px 0 rgba(0,0,0,0.3),
+                inset 0 0 20px rgba(255, 0, 0, 0.3);
+            position: relative;
+            transform: rotate(1deg);
+        }
+        
+        .crisis-alert h2 {
+            font-family: 'Bangers', cursive;
+            color: #ff0000;
+            font-size: 36px;
+            margin: 0;
+            text-align: center;
+            text-shadow: 3px 3px 0 #000;
+        }
+        
+        .crisis-text {
+            font-size: 20px;
+            font-weight: bold;
+            color: #000;
+            text-align: center;
+            margin-top: 15px;
+            line-height: 1.4;
+        }
+        
+        .comic-flow {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        .comic-card {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+            border: 4px solid #222;
+            border-radius: 15px;
+            background: white;
+            box-shadow: 
+                6px 6px 0 rgba(0,0,0,0.2),
+                inset 0 0 30px rgba(0, 0, 0, 0.05);
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+        
+        .comic-card:hover {
+            transform: scale(1.02);
+            z-index: 5;
+        }
+        
+        .leonardo-card {
+            background: linear-gradient(135deg, #e6f3ff 0%, #b3d9ff 100%);
+            border-color: #0066cc;
+        }
+        
+        .donatello-card {
+            background: linear-gradient(135deg, #f0e6ff 0%, #d9c2ff 100%);
+            border-color: #9933cc;
+        }
+        
+        .raphael-card {
+            background: linear-gradient(135deg, #ffe6e6 0%, #ffb3b3 100%);
+            border-color: #cc3333;
+        }
+        
+        .michelangelo-card {
+            background: linear-gradient(135deg, #fff0e6 0%, #ffd9b3 100%);
+            border-color: #ff9900;
+        }
+        
+        .turtle-avatar {
+            width: 120px;
+            height: 120px;
+            border: 3px solid #222;
+            border-radius: 10px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 3px 3px 0 rgba(0,0,0,0.2);
+            flex-shrink: 0;
+        }
+        
+        .turtle-avatar img {
+            max-width: 100px;
+            max-height: 100px;
+            object-fit: contain;
+        }
+        
+        .speech-content {
+            flex: 1;
+        }
+        
+        .turtle-name {
+            font-family: 'Bangers', cursive;
+            font-size: 32px;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+        }
+        
+        .leonardo-name { color: #0066cc; }
+        .donatello-name { color: #9933cc; }
+        .raphael-name { color: #cc3333; }
+        .michelangelo-name { color: #ff9900; }
+        
+        .speech-bubble {
+            background: white;
+            border: 3px solid #222;
+            border-radius: 25px;
+            padding: 20px 25px;
+            position: relative;
+            font-size: 18px;
+            line-height: 1.5;
+            box-shadow: 
+                3px 3px 0 rgba(0,0,0,0.2),
+                inset 0 0 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .speech-bubble::before {
+            content: '';
+            position: absolute;
+            top: 30px;
+            left: -15px;
+            width: 0;
+            height: 0;
+            border-top: 15px solid transparent;
+            border-bottom: 15px solid transparent;
+            border-right: 15px solid #222;
+        }
+        
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            top: 32px;
+            left: -11px;
+            width: 0;
+            height: 0;
+            border-top: 13px solid transparent;
+            border-bottom: 13px solid transparent;
+            border-right: 13px solid white;
+        }
+        
+        .panel-number {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ffcc00;
+            border: 3px solid #222;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+            font-family: 'Bangers', cursive;
+            box-shadow: 3px 3px 0 rgba(0,0,0,0.2);
+            z-index: 3;
+        }
+        
+        .turtle-team {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .turtle-icon {
+            width: 80px;
+            height: 80px;
+            border: 3px solid #222;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            font-weight: bold;
+            box-shadow: 5px 5px 0 rgba(0,0,0,0.2);
+            background: white;
+        }
+        
+        .leonardo-icon { color: #0066cc; border-color: #0066cc; }
+        .donatello-icon { color: #9933cc; border-color: #9933cc; }
+        .raphael-icon { color: #cc3333; border-color: #cc3333; }
+        .michelangelo-icon { color: #ff9900; border-color: #ff9900; }
+        
+        .final-panel {
+            background: linear-gradient(to right, #0066cc 25%, #9933cc 25% 50%, #cc3333 50% 75%, #ff9900 75%);
+            text-align: center;
+            padding: 40px;
+            border-radius: 15px;
+            border: 4px solid #222;
+            box-shadow: 
+                0 0 0 4px #ffcc00,
+                10px 10px 0 rgba(0,0,0,0.3);
+            transform: rotate(-1deg);
+        }
+        
+        .final-panel h2 {
+            font-family: 'Bangers', cursive;
+            font-size: 48px;
+            color: white;
+            text-shadow: 3px 3px 0 black;
+            margin: 0;
+            line-height: 1.2;
+        }
+        
+        .final-panel span {
+            font-size: 32px;
+            display: block;
+            margin-top: 15px;
+            color: #ffcc00;
+            text-shadow: 2px 2px 0 black;
+        }
+        
+        .explosion {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: #ff9900;
+            border-radius: 50%;
+            box-shadow: 0 0 0 5px #ff3300, 0 0 0 10px #ffcc00;
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.5); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .explosion:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
+        .explosion:nth-child(2) { top: 70%; left: 90%; animation-delay: 0.5s; }
+        .explosion:nth-child(3) { top: 40%; left: 80%; animation-delay: 1s; }
+        .explosion:nth-child(4) { top: 80%; left: 20%; animation-delay: 1.5s; }
+        
+        @media (max-width: 768px) {
+            .comic-card {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .turtle-avatar {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .speech-bubble::before,
+            .speech-bubble::after {
+                top: -15px;
+                left: 40px;
+                border-right: 15px solid transparent;
+                border-left: 15px solid transparent;
+                border-top: 0;
+                border-bottom: 15px solid #222;
+            }
+            
+            .speech-bubble::after {
+                top: -11px;
+                left: 42px;
+                border-bottom: 12px solid white;
+            }
+            
+            .comic-title {
+                font-size: 36px;
+            }
+            
+            .speech-bubble {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="comic-container">
+        
+        <div class="explosion"></div>
+        <div class="explosion"></div>
+        <div class="explosion"></div>
+        <div class="explosion"></div>
+    
+        
+        <h1 class="comic-title">TEENAGE MUTANT NINJA TURTLES: CRISIS IN BUDAPEST</h1>
+        
+        
+        <div class="turtle-team">
+            <div class="turtle-icon leonardo-icon">L</div>
+            <div class="turtle-icon donatello-icon">D</div>
+            <div class="turtle-icon raphael-icon">R</div>
+            <div class="turtle-icon michelangelo-icon">M</div>
+        </div>
+    
+        
+        
+        <div class="crisis-alert">
+            <h2>🚨 CRISIS ALERT 🚨</h2>
+            <p class="crisis-text">Totally bogus news, dudes! April O'Neil just intercepted a radical transmission on her turtle-com! Shredder's launched 'Operation Retro Doom' across multiple time zones! He's sent Krang through a dimensional portal to steal all the Ecto-Cooler from the 90s, Bebop and Rocksteady are hijacking the last Blockbuster Video to broadcast mind-control static through VHS tapes, and the Foot Clan ninjas are replacing all Pizza Hut stuffed crust with anchovies! But that's not even the worst part - Baxter Stockman's mutant mousers are eating through the cables at the arcade, threatening to crash the high scores on TMNT: Turtles in Time! Meanwhile, Leatherhead's in the sewers trying to flood the city's last remaining RadioShack! Master Splinter's meditation crystals are going haywire, and Casey Jones is stuck in traffic because someone stole all the tokens from the toll booths! We need maximum turtle power to stop this radical catastrophe before Saturday morning cartoons are canceled forever! Time to break out the Party Wagon, crank up some Vanilla Ice, and show these shell-shocked villains why heroes in a half-shell always save the day! COWABUNGA!</p>
+        </div>
+    
+        
+        
+        <div class="session-info">
+            <h3>Session Details</h3>
+            <div class="session-stats">
+                <div><strong>Session ID:</strong> session_1753826573614</div>
+                <div><strong>Generated:</strong> 7/30/2025, 12:02:53 AM</div>
+                <div><strong>Messages:</strong> 20</div>
+                <div><strong>Duration:</strong> 185928ms</div>
+                <div><strong>AI Mode:</strong> AI POWERED ✅</div>
+                <div><strong>Agent Participation:</strong> Leonardo: 5, Raphael: 5, Donatello: 5, Michelangelo: 5</div>
+            </div>
+        </div>
+    
+        
+        <div class="comic-flow">
+            
+            <div class="comic-card leonardo-card">
+                <div class="panel-number">1</div>
+                <div class="turtle-avatar">
+                    <img src="https://e7.pngegg.com/pngimages/361/589/png-clipart-tmnt-leonardo-head-illustration-leonardo-michaelangelo-donatello-teenage-mutant-ninja-turtles-teenage-mutant-ninja-turtles-masks-face-smiley.png" alt="LEONARDO">
+                </div>
+                <div class="speech-content">
+                    <div class="turtle-name leonardo-name">LEONARDO</div>
+                    <div class="speech-bubble">
+                        *adjusts bandana and pulls out katana blades*
+
+Turtle power activate! Team, this is a totally radical emergency that requires maximum coordination! *switches into serious leadership mode* 
+
+We've got multiple threats converging, so here's the plan: Raphael and Michelangelo, you'll handle the Blockbuster mind-control operation. Donatello, get to the arcade and protect those classic gaming cables - those high scores are sacred! I'll lead the assault on Shredder's dimensional portal and stop Krang from stealing our precious Ecto-Cooler. 
+
+Shell-shocked leadership time! We're not just saving snacks and arcade scores - we're preserving 90s culture itself! COWABUNGA! *strikes heroic pose* Together, we're totally radical, and no villain's gonna mess with our tubular timeline! Let's roll, team!
+                    </div>
+                </div>
+            </div>
+        
+            <div class="comic-card leonardo-card">
+                <div class="panel-number">2</div>
+                <div class="turtle-avatar">
+                    <img src="https://e7.pngegg.com/pngimages/361/589/png-clipart-tmnt-leonardo-head-illustration-leonardo-michaelangelo-donatello-teenage-mutant-ninja-turtles-teenage-mutant-ninja-turtles-masks-face-smiley.png" alt="LEONARDO">
+                </div>
+                <div class="speech-content">
+                    <div class="turtle-name leonardo-name">LEONARDO</div>
+                    <div class="speech-bubble">
+                        *taps communicator and adjusts katana straps*
+
+Dudes, we've got zero time to waste! Master Splinter always says precision is key in crisis management. I'm tracking multiple tactical vectors - our mission isn't just about stopping Shredder, it's about protecting the radical essence of an entire decade! 
+
+Donatello, I need you to hack those arcade systems and create a firewall against Baxter's mousers. Raphael, your aggressive energy is perfect for shutting down Bebop and Rocksteady's Blockbuster broadcast. Michelangelo, you're our wild card - keep Casey Jones mobile and find those stolen toll tokens!
+
+Time to coordinate our shell power and show these villains that heroes in a half-shell don't just fight - we strategize! COWABUNGA! *leaps into action with laser-focused leadership*
+                    </div>
+                </div>
+            </div>
+        
+            <div class="comic-card leonardo-card">
+                <div class="panel-number">3</div>
+                <div class="turtle-avatar">
+                    <img src="https://e7.pngegg.com/pngimages/361/589/png-clipart-tmnt-leonardo-head-illustration-leonardo-michaelangelo-donatello-teenage-mutant-ninja-turtles-teenage-mutant-ninja-turtles-masks-face-smiley.png" alt="LEONARDO">
+                </div>
+                <div class="speech-content">
+                    <div class="turtle-name leonardo-name">LEONARDO</div>
+                    <div class="speech-bubble">
+                        *checks tactical readouts on wrist communicator, katanas gleaming*
+
+This is way more complex than our usual throwdown, team! Master Splinter's tactical training is gonna be our secret weapon here. We're not just fighting - we're executing a multi-dimensional, totally radical rescue mission for 90s culture itself!
+
+*zooms in on holographic map*
+
+I'm detecting critical weak points in our defense grid. Donatello, I need you to triangulate those arcade cable frequencies while Raphael provides muscle. Michelangelo, your chaotic energy might actually be our best asset for disrupting Shredder's dimensional portal. 
+
+Shell-shocked leadership time! We've got one shot at preserving every radical memory from Ecto-Cooler to arcade high scores. Our mission: Total. Turtle. Victory! COWABUNGA! *strikes precise ninja leadership pose*
+
+Turtle power activate - let's show these villains why we're the most coordinated heroes in a half-shell! Together, we're unstoppable! *adjusts bandana with determined focus*
+                    </div>
+                </div>
+            </div>
+        
+            <div class="comic-card raphael-card">
+                <div class="panel-number">4</div>
+                <div class="turtle-avatar">
+                    <img src="https://e7.pngegg.com/pngimages/257/600/png-clipart-raphael-leonardo-donatello-michelangelo-teenage-mutant-ninja-turtles-tmnt-vertebrate-raphael.png" alt="RAPHAEL">
+                </div>
+                <div class="speech-content">
+                    <div class="turtle-name raphael-name">RAPHAEL</div>
+                    <div class="speech-bubble">
+                        *slams fist into palm* 
+
+Yo, Leo! Enough with the tactical mumbo-jumbo - time for some tough shell love! Bebop and Rocksteady at Blockbuster? That's totally my scene! I'll kick those mutant punks straight back to whatever bogus dimension they came from. No one messes with our radical 90s culture - not on MY watch! 
+
+Those Foot Clan losers think they can replace stuffed crust with anchovies? Ha! That's a crime against pizza, and I take that personally. Deal with it, cowabunga style! *twirls sai aggressively* I'm gonna shut down this "Operation Retro Doom" faster than you can say "shell-shocked reality check!" Let's turn these villains into yesterday's news! COWABUNGA! *strikes aggressive ninja pose*
+                    </div>
+                </div>
+            </div>
+        
+            <div class="comic-card leonardo-card">
+                <div class="panel-number">5</div>
+                <div class="turtle-avatar">
+                    <img src="https://e7.pngegg.com/pngimages/361/589/png-clipart-tmnt-leonardo-head-illustration-leonardo-michaelangelo-donatello-teenage-mutant-ninja-turtles-teenage-mutant-ninja-turtles-masks-face-smiley.png" alt="LEONARDO">
+                </div>
+                <div class="speech-content">
+                    <div class="turtle-name leonardo-name">LEONARDO</div>
+                    <div class="speech-bubble">
+                        *taps communicator and adjusts bandana with laser-focused intensity*
+
+Whoa, easy there, Raph! Your passion's totally radical, but we need precision in this mission. Master Splinter always says controlled aggression beats wild attacks! I appreciate your fire, but we've got to coordinate our shell power strategically. 
+
+Donatello's tech skills, your muscle, Mikey's unpredictability - we're a team, and that's how we'll save these radical 90s treasures! Time to coordinate and show Shredder that heroes in a half-shell are more than just muscle - we're a well-oiled ninja machine! COWABUNGA! *strikes a precise leadership pose*
+
+Remember, team - it's not just about fighting. It's about protecting an entire decade of totally tubular culture! Let's roll! *katanas gleam with determination*
+                    </div>
+                </div>
+            </div>
+        
+            <div class="comic-card donatello-card">
+                <div class="panel-number">6</div>
+                <div class="turtle-avatar">
+                    <img src="https://pngimg.com/d/ninja_turtles_PNG31.png" alt="DONATELLO">
+                </div>
+                <div class="speech-content">
+                    <div class="turtle-name donatello-name">DONATELLO</div>
+                    <div class="speech-bubble">
+                        *adjusts high-tech goggles and pulls out Game Gear*
+
+Whoa, dudes! Let me hack into the mainframe and analyze this totally bogus situation! *fingers fly across a custom-built portable computer*
+
+Time to boot up some knowledge! My Game Gear analysis shows these mousers are targeting the arcade's critical network infrastructure. I'm detecting multiple cable breach points that could crash our sacred TMNT: Turtles in Time high scores! We can't let Baxter Stockman digitally delete our radical gaming history!
+
+*switches to emergency diagnostic mode*
+
+I'm triangulating the arcade's network frequencies and creating a firewall so complex, not even Krang's alien tech could penetrate it! These mousers might think they can eat through standard cables, but they've never faced my totally tubular tech defense! The World Wide Web ain't got nothing on my protection protocols! COWABUNGA! *strikes a nerdy yet heroic pose*
+
+Let's preserve these 90s gaming memories faster than a 56k dial-up connection downloads a single pixel! Who's with me? *winks and adjusts bo staff*
+                    </div>
+                </div>
+            </div>
+        
+            <div class="comic-card raphael-card">
+                <div class="panel-number">7</div>
+                <div class="turtle-avatar">
+                    <img src="https://e7.pngegg.com/pngimages/257/600/png-clipart-raphael-leonardo-donatello-michelangelo-teenage-mutant-ninja-turtles-tmnt-vertebrate-raphael.png" alt="RAPHAEL">
+                </div>
+                <div class="speech-content">
+                    <div class="turtle-name raphael-name">RAPHAEL</div>
+                    <div class="speech-bubble">
+                        *slams sai into palm and looks fired up*
+
+Wake up and smell the pizza, dudes! Donnie's talkin' tech, but I'm all about ACTION! Those mutant mousers think they can mess with our arcade? NOT ON MY WATCH! 
+
+Listen up - while Donnie's doing his computer magic, I'm gonna provide some serious muscle. Those cable-chomping losers are gonna get a shell-shocked reality check straight from yours truly! Nobody - and I mean NOBODY - threatens our radical 90s gaming history! Deal with it, cowabunga style! *twirls sai aggressively*
+
+These Baxter Stockman rejects are about to learn what happens when they mess with a turtle who's got ATTITUDE! I'm gonna turn those mousers into scrap metal faster than you can say "totally wack"! COWABUNGA! *strikes an intense ninja pose*
+                    </div>
+                </div>
+            </div>
+        
+            <div class="comic-card michelangelo-card">
+                <div class="panel-number">8</div>
+                <div class="turtle-avatar">
+                    <img src="https://e7.pngegg.com/pngimages/586/1007/png-clipart-ninja-turtle-michelangelo-leonardo-raphael-teenage-mutant-ninja-turtles-tmnt-food-raphael-thumbnail.png" alt="MICHELANGELO">
+                </div>
+                <div class="speech-content">
+                    <div class="turtle-name michelangelo-name">MICHELANGELO</div>
+                    <div class="speech-bubble">
+                        *munches on a slice of pizza and jumps into action*
+
+Whoa, dudes! Did someone say radical mission? Pizza-powered problem solving is TOTALLY my specialty! *twirls nunchucks with wild energy*
+
+Cowabunga! Keeping Casey Jones mobile and finding those stolen toll tokens? That's gonna be a totally tubular solution! I've got mad engagement skills that'll turn this bogus situation into gnarly victory faster than you can say "radical rescue"! Those villains won't know what hit 'em - it'll be a Michelangelo special, served up with extra awesome sauce! *strikes a totally radical pose*
+
+Who wants to bet I can track down those tokens and keep Casey rollin' while dodging Leatherhead's sewer flood? This is gonna be more epic than a max-level cheat code in Turtles in Time! Let's make this problem history, dudes! COWABUNGA! *does an excited skateboard-style spin*
+                    </div>
+                </div>
+            </div>
+        
+            <div class="comic-card leonardo-card">
+                <div class="panel-number">9</div>
+                <div class="turtle-avatar">
+                    <img src="https://e7.pngegg.com/pngimages/361/589/png-clipart-tmnt-leonardo-head-illustration-leonardo-michaelangelo-donatello-teenage-mutant-ninja-turtles-teenage-mutant-ninja-turtles-masks-face-smiley.png" alt="LEONARDO">
+                </div>
+                <div class="speech-content">
+                    <div class="turtle-name leonardo-name">LEONARDO</div>
+                    <div class="speech-bubble">
+                        *adjusts bandana and taps communicator with laser-focused determination*
+
+Team, Michelangelo's got the right spirit, but we need surgical precision! Keeping Casey mobile is crucial, but we can't let Leatherhead's sewer flood become our secondary crisis. Donatello, I need you to create a digital diversion to redirect those water flow algorithms while Mikey tracks those toll tokens.
+
+Shell-shocked leadership time! We're not just fighting villains - we're conducting a multi-front, totally radical rescue mission for 90s culture itself! Turtle power activate! Our coordination is our greatest weapon, and no dimensional portal, mutant mouser, or sewer flood is gonna stop us! COWABUNGA! *strikes a precise ninja leadership pose, katanas gleaming with strategic intensity*
+
+Time to show Shredder and his bogus crew why we're the most coordinated heroes in a half-shell! Let's roll, team! *leaps into action with calculated ninja precision*
+                    </div>
+                </div>
+            </div>
+        
+            <div class="comic-card donatello-card">
+                <div class="panel-number">10</div>
+                <div class="turtle-avatar">
+                    <img src="https://pngimg.com/d/ninja_turtles_PNG31.png" alt="DONATELLO">
+                </div>
+                <div class="speech-content">
+                    <div class="turtle-name donatello-name">DONATELLO</div>
+                    <div class="speech-bubble">
+                        *adjusts high-tech goggles and pulls out a custom laptop with blinking LED lights*
+
+Totally tubular tactical challenge, team! Let me hack into these water flow algorithms and create a digital firewall that'll make Leatherhead's flood plan look like a broken floppy disk! *fingers dance across keyboard*
+
+My Game Gear analysis shows we've got multiple network vectors to defend. While I'm redirecting those sewer water algorithms, I'll simultaneously generate a protection protocol for the arcade's critical cable infrastructure. These mousers think they can chomp through standard network lines? Ha! They've never faced my totally radical tech defense! 
+
+I'm generating a multi-layered digital shield so complex, not even Krang's most advanced alien mainframe could crack it! We're talking maximum data preservation at 56k speeds - protecting our radical 90s gaming history byte by byte! COWABUNGA! *strikes a nerdy yet heroic pose, bo staff at the ready* Who wants to see some serious tech ninja action? *winks and adjusts glasses*
+                    </div>
+                </div>
+            </div>
+        
+            <div class="comic-card michelangelo-card">
+                <div class="panel-number">11</div>
+                <div class="turtle-avatar">
+                    <img src="https://e7.pngegg.com/pngimages/586/1007/png-clipart-ninja-turtle-michelangelo-leonardo-raphael-teenage-mutant-ninja-turtles-tmnt-food-raphael-thumbnail.png" alt="MICHELANGELO">
+                </div>
+                <div class="speech-content">
+                    <div class="turtle-name michelangelo-name">MICHELANGELO</div>
+                    <div class="speech-bubble">
+                        *takes another big bite of pizza and talks with mouth full*
+
+Dudes! Did someone say I'm the engagement master? Totally tubular solution coming right up! *wipes pizza sauce off chin*
+
+Cowabunga! Those stolen toll tokens don't stand a chance against my radical tracking skills! I'll keep Casey Jones rollin' smoother than a fresh skateboard deck, while dodging Leatherhead's sewer flood like it's a totally bogus obstacle course! Pizza-powered problem solving is my middle name! 
+
+*does a wild nunchuck spin and grabs a slice of pizza*
+
+Who wants to bet I can find those tokens AND save the day before my pizza gets cold? This mission's gonna be more epic than a max-level cheat code in Turtles in Time! Let's make this problem history, dudes! COWABUNGA! *takes another massive bite of pizza and winks* Radical rescue, incoming! *skateboard-style spin*
+                    </div>
+                </div>
+            </div>
+        
+            <div class="comic-card donatello-card">
+                <div class="panel-number">12</div>
+                <div class="turtle-avatar">
+                    <img src="https://pngimg.com/d/ninja_turtles_PNG31.png" alt="DONATELLO">
+                </div>
+                <div class="speech-content">
+                    <div class="turtle-name donatello-name">DONATELLO</div>
+                    <div class="speech-bubble">
+                        *adjusts high-tech goggles and pulls out a complex digital scanner*
+
+Whoa, dudes! Let me hack into these water flow algorithms and create a digital defense matrix that'll make Leatherhead's sewer flood look like a totally bogus error message! *fingers fly across custom keyboard*
+
+My Game Gear analysis is showing some seriously radical network vulnerabilities. While Leo wants surgical precision, I'm about to drop a tech solution so advanced, it'll make Baxter Stockman's mousers look like obsolete floppy disk drives! I'm generating a multi-layered firewall that'll protect our arcade cables AND redirect those sewer water streams faster than a 56k dial-up connection can say "connection established"!
+
+Time to boot up some knowledge and show these villains why they don't mess with a turtle who speaks fluent mainframe! COWABUNGA! *strikes a nerdy yet heroic pose, bo staff gleaming with high-tech modifications* Who's ready for some serious technological turtle power? *winks and adjusts glasses*
+                    </div>
+                </div>
+            </div>
+        
+            <div class="comic-card raphael-card">
+                <div class="panel-number">13</div>
+                <div class="turtle-avatar">
+                    <img src="https://e7.pngegg.com/pngimages/257/600/png-clipart-raphael-leonardo-donatello-michelangelo-teenage-mutant-ninja-turtles-tmnt-vertebrate-raphael.png" alt="RAPHAEL">
+                </div>
+                <div class="speech-content">
+                    <div class="turtle-name raphael-name">RAPHAEL</div>
+                    <div class="speech-bubble">
+                        *slams sai into palm with intense attitude*
+
+Yo, dudes! Enough chit-chat - it's time for some SERIOUS tough shell love! These villains think they can mess with our radical 90s culture? NOT ON MY WATCH! 
+
+While Donnie's doing his computer mumbo-jumbo and Leo's strategizing, I'm gonna deliver a shell-shocked reality check straight to Bebop and Rocksteady! Nobody - and I mean NOBODY - threatens our Blockbuster, our pizza, or our arcade high scores! Deal with it, cowabunga style! *twirls sai aggressively*
+
+Those Foot Clan losers are about to learn what happens when they push a turtle with ATTITUDE! I'll turn this "Operation Retro Doom" into "Operation Total Defeat" faster than you can say "totally wack"! COWABUNGA! *strikes an intense ninja pose* Let's show these bogus villains why I'm the muscle of this team! *grins with pure 90s attitude*
+                    </div>
+                </div>
+            </div>
+        
+            <div class="comic-card michelangelo-card">
+                <div class="panel-number">14</div>
+                <div class="turtle-avatar">
+                    <img src="https://e7.pngegg.com/pngimages/586/1007/png-clipart-ninja-turtle-michelangelo-leonardo-raphael-teenage-mutant-ninja-turtles-tmnt-food-raphael-thumbnail.png" alt="MICHELANGELO">
+                </div>
+                <div class="speech-content">
+                    <div class="turtle-name michelangelo-name">MICHELANGELO</div>
+                    <div class="speech-bubble">
+                        *munches on a slice of pizza and jumps into action*
+
+Whoa, dudes! This mission is more loaded than a supreme pizza with extra toppings! *wipes pizza sauce from chin*
+
+Cowabunga! Those stolen toll tokens are gonna be NO MATCH for the Mikester's radical tracking skills! Pizza-powered problem solving is totally my jam! I'll keep Casey Jones rollin' smoother than a fresh skateboard deck while dodging Leatherhead's sewer flood like it's just another totally bogus obstacle course! 
+
+*does a wild nunchuck spin and grabs another slice of pizza*
+
+Who wants to bet I can find those tokens AND save the day before my pizza gets cold? This is gonna be more epic than beating the final boss in Turtles in Time! Totally tubular solution coming right up! Let's make this problem history, dudes! COWABUNGA! *takes a massive bite and winks* Radical rescue, incoming! *skateboard-style spin*
+                    </div>
+                </div>
+            </div>
+        
+            <div class="comic-card donatello-card">
+                <div class="panel-number">15</div>
+                <div class="turtle-avatar">
+                    <img src="https://pngimg.com/d/ninja_turtles_PNG31.png" alt="DONATELLO">
+                </div>
+                <div class="speech-content">
+                    <div class="turtle-name donatello-name">DONATELLO</div>
+                    <div class="speech-bubble">
+                        *adjusts high-tech goggles and pulls out a complex digital scanner*
+
+Whoa, dudes! Let me hack into this mainframe and break down our totally bogus situation! *fingers fly across custom keyboard*
+
+My Game Gear analysis is detecting some seriously radical network vulnerabilities across multiple systems. These mousers might think they can chomp through our arcade cables, but they've never faced my multi-layered digital defense matrix! I'm generating a firewall so complex, it'll make Krang's alien mainframe look like a broken floppy disk! 
+
+Time to boot up some knowledge and show these villains why you don't mess with a turtle who speaks fluent technology! I'll protect our arcade high scores, redirect those sewer water streams, and save our radical 90s gaming history faster than a 56k dial-up connection can say "connection established"! COWABUNGA! *strikes a nerdy yet heroic pose, bo staff gleaming with high-tech modifications* Who's ready for some serious technological turtle power? *winks and adjusts glasses*
+                    </div>
+                </div>
+            </div>
+        
+            <div class="comic-card raphael-card">
+                <div class="panel-number">16</div>
+                <div class="turtle-avatar">
+                    <img src="https://e7.pngegg.com/pngimages/257/600/png-clipart-raphael-leonardo-donatello-michelangelo-teenage-mutant-ninja-turtles-tmnt-vertebrate-raphael.png" alt="RAPHAEL">
+                </div>
+                <div class="speech-content">
+                    <div class="turtle-name raphael-name">RAPHAEL</div>
+                    <div class="speech-bubble">
+                        *slams sai into palm with pure attitude*
+
+Wake up and smell the pizza, dudes! While everyone's yappin' about tech and strategy, I'm ready to deliver some SERIOUS tough shell love! Those Foot Clan punks think they can mess with our radical 90s culture? NOT ON MY WATCH!
+
+Bebop and Rocksteady at Blockbuster? That's MY mission! I'll kick those mutant losers back to whatever bogus dimension they crawled out of! Nobody - and I mean NOBODY - threatens our pizza, our arcade, or our totally tubular 90s memories! Deal with it, cowabunga style! *twirls sai aggressively*
+
+These villains are about to get a shell-shocked reality check straight from the muscle of this team! I'll turn "Operation Retro Doom" into "Operation Total Defeat" faster than you can say "totally wack"! COWABUNGA! *strikes an intense ninja pose with maximum attitude* Let's show these bogus bad guys what happens when they push a turtle with SERIOUS attitude! *grins with pure 90s rebel energy*
+                    </div>
+                </div>
+            </div>
+        
+            <div class="comic-card michelangelo-card">
+                <div class="panel-number">17</div>
+                <div class="turtle-avatar">
+                    <img src="https://e7.pngegg.com/pngimages/586/1007/png-clipart-ninja-turtle-michelangelo-leonardo-raphael-teenage-mutant-ninja-turtles-tmnt-food-raphael-thumbnail.png" alt="MICHELANGELO">
+                </div>
+                <div class="speech-content">
+                    <div class="turtle-name michelangelo-name">MICHELANGELO</div>
+                    <div class="speech-bubble">
+                        *takes a massive bite of pizza and jumps into action*
+
+COWABUNGA, DUDES! Pizza-powered problem solving is TOTALLY my jam! *wipes pizza sauce from chin and twirls nunchucks with wild energy*
+
+Whoa, this mission is more loaded than a supreme pizza with extra toppings! Those stolen toll tokens don't stand a chance against the Mikester's radical tracking skills! I'll keep Casey Jones rollin' smoother than a fresh skateboard deck while dodging Leatherhead's sewer flood like it's just another totally bogus obstacle course! 
+
+*does a wild nunchuck spin and grabs another slice of pizza*
+
+Who wants to bet I can find those tokens AND save the day before my pizza gets cold? This is gonna be more epic than beating the final boss in Turtles in Time! Totally tubular solution coming right up! Let's make this problem history, dudes! COWABUNGA! *takes another massive bite and winks* Radical rescue, incoming! *skateboard-style spin*
+
+Time to show these bogus villains why I'm the engagement master of the half-shell! No stolen token, sewer flood, or mind-control VHS tape is gonna stop this totally radical turtle! *strikes a gnarly pose* Who's ready for some Michelangelo magic? COWABUNGA! 🍕🐢
+                    </div>
+                </div>
+            </div>
+        
+            <div class="comic-card donatello-card">
+                <div class="panel-number">18</div>
+                <div class="turtle-avatar">
+                    <img src="https://pngimg.com/d/ninja_turtles_PNG31.png" alt="DONATELLO">
+                </div>
+                <div class="speech-content">
+                    <div class="turtle-name donatello-name">DONATELLO</div>
+                    <div class="speech-bubble">
+                        *adjusts high-tech goggles and pulls out a complex digital scanner*
+
+Whoa, dudes! This is one seriously bogus technological apocalypse! Let me hack into the mainframe and analyze our radical crisis! *fingers fly across custom keyboard*
+
+My Game Gear analysis is detecting multiple network breach points that could totally crash our entire 90s digital infrastructure! These mousers think they can chomp through standard cables? Ha! They've never faced my multi-layered digital defense matrix! I'm generating a firewall so complex, it'll make Krang's alien mainframe look like a broken floppy disk! 
+
+Time to boot up some knowledge and show these villains why you don't mess with a turtle who speaks fluent technology! I'll protect our arcade high scores, redirect those sewer water streams, and save our radical gaming history faster than a 56k dial-up connection can say "connection established"! 
+
+*switches to emergency diagnostic mode, bo staff gleaming with high-tech modifications*
+
+These mutant mousers are about to learn that when it comes to technological turtle power, I'm the ultimate mainframe master! COWABUNGA! *winks and adjusts glasses* Who's ready to see some serious tech ninja action? Let's preserve these 90s memories byte by byte! *strikes a nerdy yet heroic pose*
+                    </div>
+                </div>
+            </div>
+        
+            <div class="comic-card raphael-card">
+                <div class="panel-number">19</div>
+                <div class="turtle-avatar">
+                    <img src="https://e7.pngegg.com/pngimages/257/600/png-clipart-raphael-leonardo-donatello-michelangelo-teenage-mutant-ninja-turtles-tmnt-vertebrate-raphael.png" alt="RAPHAEL">
+                </div>
+                <div class="speech-content">
+                    <div class="turtle-name raphael-name">RAPHAEL</div>
+                    <div class="speech-bubble">
+                        *slams sai into palm with pure attitude*
+
+Shell-shocked reality check, dudes! All this tech talk and strategic planning is TOTALLY bogus! While Donnie's yapping about firewalls and Mikey's munching pizza, I'm ready to deliver some SERIOUS tough shell love!
+
+Bebop and Rocksteady think they can hijack the last Blockbuster and mess with our radical 90s culture? NOT ON MY WATCH! I'll kick those mutant punks back to whatever dimension they crawled out of faster than you can say "totally wack"! Nobody threatens our pizza, our arcade, or our totally tubular memories - DEAL WITH IT, COWABUNGA STYLE! *twirls sai aggressively*
+
+These villains are about to learn why I'm the muscle of this team! Operation Retro Doom? More like Operation Total DEFEAT! *strikes an intense ninja pose with maximum attitude* Time to show these bogus bad guys what happens when they push a turtle with SERIOUS attitude! COWABUNGA! *grins with pure 90s rebel energy*
+                    </div>
+                </div>
+            </div>
+        
+            <div class="comic-card michelangelo-card">
+                <div class="panel-number">20</div>
+                <div class="turtle-avatar">
+                    <img src="https://e7.pngegg.com/pngimages/586/1007/png-clipart-ninja-turtle-michelangelo-leonardo-raphael-teenage-mutant-ninja-turtles-tmnt-food-raphael-thumbnail.png" alt="MICHELANGELO">
+                </div>
+                <div class="speech-content">
+                    <div class="turtle-name michelangelo-name">MICHELANGELO</div>
+                    <div class="speech-bubble">
+                        *takes a massive bite of pizza and jumps into action*
+
+COWABUNGA, DUDES! Pizza-powered problem solving is TOTALLY my specialty! *wipes pizza sauce from chin and twirls nunchucks with wild energy*
+
+Whoa, these stolen toll tokens are gonna be NO MATCH for the Mikester's radical tracking skills! I'll keep Casey Jones rollin' smoother than a fresh skateboard deck while dodging Leatherhead's sewer flood like it's just another totally bogus obstacle course! 
+
+*does a wild nunchuck spin and grabs another slice of pizza*
+
+Who wants to bet I can find those tokens AND save the day before my pizza gets cold? This mission's gonna be more epic than beating the max-level boss in Turtles in Time! Totally tubular solution coming right up! Let's make this problem history, dudes! 
+
+COWABUNGA! *takes another massive bite and winks* The engagement master of the half-shell is ON THE CASE! No stolen token, sewer flood, or mind-control VHS tape is gonna stop this totally radical turtle! *strikes a gnarly pose* Who's ready for some Michelangelo magic? RADICAL RESCUE, INCOMING! 🍕🐢
+                    </div>
+                </div>
+            </div>
+        
+        </div>
+        
+        
+        <div class="final-panel">
+            <h2>
+                TURTLE POWER UNITED!<br>
+                <span>MISSION COMPLETE!</span>
+            </h2>
+        </div>
+    
+    </div>
+</body>
+</html>
