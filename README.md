@@ -4,15 +4,14 @@
 > **Heroes in a Half-Shell meet Cutting-Edge AI!** Experience the future of multi-agent conversations through the legendary Teenage Mutant Ninja Turtles, powered by the revolutionary OpenFloor Protocol.
 
 [![OpenFloor Protocol](https://img.shields.io/badge/OpenFloor-Protocol%20v1.0-00ff00)](https://openfloor.dev/)
-[![Version](https://img.shields.io/badge/version-1.0.0-blue)](https://github.com/your-repo/cowabunga-crisis-squad)
-[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
-[![AI Powered](https://img.shields.io/badge/AI-Gemini%20%2B%20Claude-purple)](https://github.com/your-repo/cowabunga-crisis-squad)
+[![Version](https://img.shields.io/badge/version-1.0.0-blue)](https://github.com/bladeszasza/TMNTCrisisSolving/)
+[![AI Powered](https://img.shields.io/badge/AI-Gemini%20%2B%20Claude-purple)](https://github.com/bladeszasza/TMNTCrisisSolving/)
 
 ---
 
 ## 🚀 **What Makes This RADICAL?**
 
-Imagine **four AI agents** working together like a perfectly coordinated team, each with their own personality, expertise, and authentic 90s attitude. This isn't just another chatbot - it's a **living demonstration** of how AI agents can collaborate naturally using the OpenFloor Protocol!
+It's a **living demonstration** of how AI agents can collaborate naturally using the OpenFloor Protocol!
 
 ### ⚡ **See It In Action - 30 Seconds to WOW!**
 
@@ -45,7 +44,6 @@ Run the **natural conversation test** and watch magic happen:
 2. **🧠 AI Analysis**: Each agent decides if they should participate using real AI
 3. **💬 Natural Flow**: Agents coordinate using OpenFloor Protocol floor management
 4. **🎨 Visual Showcase**: Automatic comic-book style HTML generation
-5. **📊 Real Metrics**: See response times, participation stats, and conversation flow
 
 ### 📱 **Live Web Demo**
 ```bash
@@ -61,7 +59,7 @@ npm run demo
 ```bash
 # Clone and install
 git clone <your-repo>
-cd cowabunga-crisis-squad
+cd TMNTCrisisSolving
 npm install
 
 # Set up AI (optional but recommended)
@@ -81,42 +79,6 @@ npm run demo:natural
 ```
 **Result**: Full AI-powered natural conversation with authentic personalities!
 
-#### ⚡ **Quick Demo** (Fallback Mode)
-```bash
-npm run demo:natural
-```
-**Result**: Personality-based responses showcase the system architecture!
-
-#### 🌐 **Interactive Web Demo**
-```bash
-npm run demo
-# Visit http://localhost:3000
-```
-**Result**: Real-time web interface with WebSocket integration!
-
----
-
-## 🎯 **What Makes This Special?**
-
-### 🏆 **World-Class OpenFloor Protocol Implementation**
-- **100% Compliant** with OpenFloor Protocol v1.0 specifications
-- **Complete Floor Management**: Request, Grant, Revoke, Yield cycle
-- **Proper Agent Manifests**: Full capability declarations
-- **Conversation Envelopes**: Standards-compliant message structure
-
-### 🤖 **Advanced AI Integration**
-- **Hybrid AI System**: Primary Gemini with Claude failover
-- **Smart Participation**: Agents use AI to decide when to contribute
-- **90s Authenticity**: AI responses validated for authentic 90s vibes
-- **Graceful Degradation**: System works even without AI services
-
-### 🎨 **Stunning Visual Output**
-Every conversation generates a **comic-book style HTML showcase** featuring:
-- Authentic TMNT visual styling
-- Speech bubbles and comic panels
-- Conversation flow visualization
-- Performance metrics and statistics
-
 ### 🔧 **Professional Architecture**
 ```
 src/
@@ -129,19 +91,6 @@ src/
 
 ---
 
-## 📊 **Performance Metrics**
-*From real test runs:*
-
-| Metric | Performance |
-|--------|-------------|
-| **Initialization** | ~3 seconds |
-| **Response Time** | 800-1200ms per agent |
-| **Conversation Length** | 10-15 agent contributions |
-| **HTML Generation** | ~500ms |
-| **Agent Participation** | 100% (all 4 agents) |
-
----
-
 ## 🔍 **Under the Hood**
 
 ### 🌟 **OpenFloor Protocol Magic**
@@ -150,7 +99,6 @@ This system showcases the **true power** of standardized multi-agent communicati
 - **Natural Turn-Taking**: No rigid scripts, agents coordinate organically
 - **Context Preservation**: Every agent knows what happened before
 - **Priority Management**: Important agents can interrupt when needed
-- **Error Recovery**: System handles failures gracefully
 
 ### 🧪 **The Secret Sauce**
 ```typescript
@@ -188,20 +136,14 @@ This project is built on the amazing **OpenFloor Protocol** created by the [Open
 
 ---
 
-## 🚀 **What's Next?**
-
-### 🔮 **Coming Soon**
-- 🌍 Multi-language support (starting with Hungarian!)
-- 🎮 Interactive gaming scenarios
-- 📱 Mobile-responsive web interface
-- 🔊 Voice integration capabilities
 
 ### 🤖 **For Developers**
-This codebase serves as a **reference implementation** for:
+This codebase serves as a **showcase** implementation for:
 - OpenFloor Protocol compliance
 - Multi-agent AI systems
 - Natural conversation flows
 - Real-time web interfaces
+- TypeScript
 
 ---
 
@@ -212,18 +154,8 @@ This codebase serves as a **reference implementation** for:
 | 📖 [**Conversational Flow Guide**](docs/conversational-flow-diagram.md) | Visual diagrams and technical deep-dive |
 | 🏆 [**OpenFloor Compliance Report**](docs/openfloor-compliance-report.md) | Complete protocol adherence analysis |
 | 🎪 [**Demo Guide**](src/demo/README.md) | How to run and customize demos |
-| 🧪 [**Testing Guide**](CLAUDE.md) | Development commands and testing |
 
 ---
-
-## 🐢 **Ready to Experience the Future?**
-
-```bash
-npm install
-npm run demo:natural
-```
-
-**Get ready for the most radical multi-agent conversation system you've ever seen!**
 
 ### Cowabunga! 🎉
 
