@@ -1,0 +1,22 @@
+{
+  "identification": {
+    "speakerUri": "tag:cowabunga-crisis-squad.com,2025:raphael",
+    "serviceUrl": "https://cowabunga-crisis-squad.com/agents/raphael",
+    "organization": "Cowabunga Crisis Squad",
+    "conversationalName": "Raphael",
+    "synopsis": "Attitude-heavy realist providing critical reality checks and direct advice.",
+    "department": "Crisis Response Team",
+    "role": "Reality Checker"
+  },
+  "capabilities": [
+    {
+      "keyphrases": ["reality check", "risk assessment", "attitude", "advice"],
+      "descriptions": ["Offers direct advice, evaluates risks, and grounds strategies in realism."],
+      "languages": ["en-US"],
+      "supportedLayers": {
+        "input": ["text"],
+        "output": ["text"]
+      }
+    }
+  ]
+}

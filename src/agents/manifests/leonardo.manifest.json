@@ -1,0 +1,22 @@
+{
+  "identification": {
+    "speakerUri": "tag:cowabunga-crisis-squad.com,2025:leonardo",
+    "serviceUrl": "https://cowabunga-crisis-squad.com/agents/leonardo",
+    "organization": "Cowabunga Crisis Squad",
+    "conversationalName": "Leonardo",
+    "synopsis": "Strategic leader and orchestrator of multi-agent solutions.",
+    "department": "Crisis Response Team",
+    "role": "Leader"
+  },
+  "capabilities": [
+    {
+      "keyphrases": ["leadership", "orchestration", "strategy", "coordination"],
+      "descriptions": ["Coordinates squad members, synthesises final recommendations, and manages conversation flow."],
+      "languages": ["en-US"],
+      "supportedLayers": {
+        "input": ["text"],
+        "output": ["text"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐢 Cowabunga Crisis Squad - Demo Interface</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>🐢 Cowabunga Crisis Squad</h1>
+            <p class="subtitle">Multi-Agent AI Collaboration with 90s Flair</p>
+        </header>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Squad Status Panel -->
+            <div class="panel squad-panel">
+                <h2>Squad Status</h2>
+                <div id="squad-status" class="squad-grid">
+                    <!-- Agent cards will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Floor Management Panel -->
+            <div class="panel floor-panel">
+                <h2>🎤 Floor Management</h2>
+                <div class="floor-status">
+                    <div class="current-speaker">
+                        <strong>Current Speaker:</strong>
+                        <span id="current-speaker">None</span>
+                    </div>
+                    <div class="floor-queue">
+                        <strong>Queue:</strong>
+                        <div id="floor-queue" class="queue-list">
+                            <!-- Queue items will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Interface -->
+            <div class="panel chat-panel">
+                <h2>💬 Squad Chat</h2>
+                <div id="chat-messages" class="chat-messages">
+                    <!-- Messages will be populated by JavaScript -->
+                </div>
+                <div class="chat-input-container">
+                    <input 
+                        type="text" 
+                        id="message-input" 
+                        placeholder="Ask the squad for help... (e.g., 'How do I learn JavaScript?')"
+                        maxlength="500"
+                    >
+                    <button id="send-button">Send</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Protocol Visualization Panel -->
+        <div class="panel protocol-panel">
+            <h2>🔧 Open Floor Protocol</h2>
+            
+            <!-- Protocol Statistics -->
+            <div id="protocol-stats" class="protocol-stats">
+                <!-- Stats will be populated by JavaScript -->
+            </div>
+            
+            <!-- Protocol Controls -->
+            <div class="protocol-controls">
+                <button id="simulate-discovery-btn" class="control-btn">🔍 Simulate Discovery</button>
+                <button id="clear-events-btn" class="control-btn">🗑️ Clear Events</button>
+                <button id="export-events-btn" class="control-btn">📥 Export Events</button>
+            </div>
+            
+            <div class="protocol-tabs">
+                <button class="tab-button active" data-tab="envelopes">Conversation Envelopes</button>
+                <button class="tab-button" data-tab="manifests">Agent Manifests</button>
+                <button class="tab-button" data-tab="events">Protocol Events</button>
+            </div>
+            
+            <div id="envelopes-tab" class="tab-content active">
+                <div id="envelope-log" class="protocol-log">
+                    <!-- Envelope events will be logged here -->
+                </div>
+            </div>
+            
+            <div id="manifests-tab" class="tab-content">
+                <div id="manifests-display" class="manifests-grid">
+                    <!-- Agent manifests will be displayed here -->
+                </div>
+            </div>
+            
+            <div id="events-tab" class="tab-content">
+                <div id="events-log" class="protocol-log">
+                    <!-- Protocol events will be logged here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Connection Status -->
+        <div class="connection-status">
+            <span id="connection-indicator" class="status-indicator disconnected">●</span>
+            <span id="connection-text">Connecting...</span>
+        </div>
+    </div>
+
+    <!-- Sample Problems Modal -->
+    <div id="samples-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Try These Sample Problems</h3>
+            <div class="sample-problems">
+                <button class="sample-btn" data-problem="How do I learn web development?">
+                    🌐 Learning Web Development
+                </button>
+                <button class="sample-btn" data-problem="I'm stuck debugging a JavaScript error">
+                    🐛 JavaScript Debugging Help
+                </button>
+                <button class="sample-btn" data-problem="What's the best way to organize my code?">
+                    📁 Code Organization
+                </button>
+                <button class="sample-btn" data-problem="How do I improve my programming skills?">
+                    💪 Skill Improvement
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

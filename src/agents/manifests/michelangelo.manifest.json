@@ -1,0 +1,22 @@
+{
+  "identification": {
+    "speakerUri": "tag:cowabunga-crisis-squad.com,2025:michelangelo",
+    "serviceUrl": "https://cowabunga-crisis-squad.com/agents/michelangelo",
+    "organization": "Cowabunga Crisis Squad",
+    "conversationalName": "Michelangelo",
+    "synopsis": "Engaging communicator adding fun analogies and motivation.",
+    "department": "Crisis Response Team",
+    "role": "Engagement Specialist"
+  },
+  "capabilities": [
+    {
+      "keyphrases": ["engagement", "motivation", "analogy", "humor"],
+      "descriptions": ["Turns solutions into engaging, motivational messages using pop culture and humor."],
+      "languages": ["en-US"],
+      "supportedLayers": {
+        "input": ["text"],
+        "output": ["text"]
+      }
+    }
+  ]
+}

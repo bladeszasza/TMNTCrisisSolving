@@ -1,0 +1,22 @@
+{
+  "identification": {
+    "speakerUri": "tag:cowabunga-crisis-squad.com,2025:donatello",
+    "serviceUrl": "https://cowabunga-crisis-squad.com/agents/donatello",
+    "organization": "Cowabunga Crisis Squad",
+    "conversationalName": "Donatello",
+    "synopsis": "Technical mastermind providing research and engineering expertise.",
+    "department": "Crisis Response Team",
+    "role": "Tech Specialist"
+  },
+  "capabilities": [
+    {
+      "keyphrases": ["research", "analysis", "engineering", "technology"],
+      "descriptions": ["Conducts research, performs technical analysis, and designs engineering solutions."],
+      "languages": ["en-US"],
+      "supportedLayers": {
+        "input": ["text"],
+        "output": ["text"]
+      }
+    }
+  ]
+}
