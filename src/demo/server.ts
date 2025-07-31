@@ -24,13 +24,18 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Demo squad manager
 const squadManager = new DemoSquadManager();
 
-// Set up protocol event forwarding
-squadManager.onProtocolEvent((event) => {
-  broadcastToAll({
-    type: 'protocol_event',
-    data: event
+// Initialize squad manager before accepting connections
+async function initializeServer() {
+  await squadManager.initialize();
+  
+  // Set up protocol event forwarding
+  squadManager.onProtocolEvent((event) => {
+    broadcastToAll({
+      type: 'protocol_event',
+      data: event
+    });
   });
-});
+}
 
 // WebSocket connection handling
 wss.on('connection', (ws) => {
@@ -122,33 +127,40 @@ async function handleUserMessage(content: string, ws: any) {
       }
     });
 
-    // Process with squad (using enhanced method with events)
-    const response = await squadManager.processUserMessageWithEvents(content);
-    
-    // Send squad response
-    broadcastToAll({
-      type: 'conversation_message',
-      data: response
-    });
-
-    // Send updated floor status
-    broadcastToAll({
-      type: 'floor_status',
-      data: squadManager.getFloorStatus()
-    });
-
-    // Emit protocol event for squad response
-    broadcastToAll({
-      type: 'protocol_event',
-      data: {
-        type: 'squad_response_generated',
-        timestamp: new Date().toISOString(),
+    // Process with squad using natural conversation (multi-agent) with streaming
+    await squadManager.processNaturalConversationStreaming(content, (response) => {
+      // Stream each response as it arrives
+      broadcastToAll({
+        type: 'conversation_message',
+        data: response
+      });
+      
+      // Send updated floor status after each response
+      broadcastToAll({
+        type: 'floor_status',
+        data: squadManager.getFloorStatus()
+      });
+      
+      // Also send as envelope event for protocol tracking
+      broadcastToAll({
+        type: 'protocol_event',
         data: {
-          respondingAgent: response.sender,
-          messageLength: response.content.length,
-          floorStatus: squadManager.getFloorStatus().currentSpeaker
+          type: 'envelope_received',
+          timestamp: new Date().toISOString(),
+          data: {
+            envelope: {
+              id: response.id,
+              type: 'dialog',
+              sender: response.sender,
+              timestamp: response.timestamp,
+              payload: {
+                text: response.content,
+                agentName: response.agentName
+              }
+            }
+          }
         }
-      }
+      });
     });
 
   } catch (error) {
@@ -202,7 +214,15 @@ app.post('/api/message', async (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 
-server.listen(PORT, () => {
+server.listen(PORT, async () => {
   console.log(`🐢 Cowabunga Crisis Squad Demo Server running on http://localhost:${PORT}`);
-  console.log('🚀 Ready to demonstrate Open Floor Protocol capabilities!');
+  console.log('🔄 Initializing squad...');
+  
+  try {
+    await initializeServer();
+    console.log('🚀 Ready to demonstrate Open Floor Protocol capabilities!');
+  } catch (error) {
+    console.error('❌ Failed to initialize squad:', error);
+    console.log('⚠️  Server will run in fallback mode');
+  }
 });

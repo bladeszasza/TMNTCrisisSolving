@@ -210,35 +210,35 @@ export class DemoSquadManager {
   }
 
   getSquadStatus(): SquadStatus {
-    const currentSpeaker = this.floorManager.getCurrentSpeaker();
+    const currentSpeaker = this.floorManager?.getCurrentSpeaker() || null;
     
     return {
       agents: [
         {
           id: 'leonardo',
           name: 'Leonardo',
-          status: currentSpeaker === 'leonardo' ? 'speaking' : 'active',
+          status: currentSpeaker === 'leonardo' ? 'speaking' : this.isInitialized ? 'active' : 'inactive',
           color: '#0066cc',
           expertise: 'Leadership & Coordination'
         },
         {
           id: 'donatello',
           name: 'Donatello',
-          status: currentSpeaker === 'donatello' ? 'speaking' : 'active',
+          status: currentSpeaker === 'donatello' ? 'speaking' : this.isInitialized ? 'active' : 'inactive',
           color: '#9933cc',
           expertise: 'Technical Research'
         },
         {
           id: 'raphael',
           name: 'Raphael',
-          status: currentSpeaker === 'raphael' ? 'speaking' : 'active',
+          status: currentSpeaker === 'raphael' ? 'speaking' : this.isInitialized ? 'active' : 'inactive',
           color: '#cc3333',
           expertise: 'Reality Checks & Attitude'
         },
         {
           id: 'michelangelo',
           name: 'Michelangelo',
-          status: currentSpeaker === 'michelangelo' ? 'speaking' : 'active',
+          status: currentSpeaker === 'michelangelo' ? 'speaking' : this.isInitialized ? 'active' : 'inactive',
           color: '#ff9900',
           expertise: 'Engagement & Fun Solutions'
         }
@@ -374,14 +374,17 @@ export class DemoSquadManager {
 
       this.conversationHistory.push(responseMessage);
       
-      // Release floor
-      await this.floorManager.yieldFloor('leonardo');
-      
-      // Emit floor yielded event
-      this.emitProtocolEvent('floor_yielded', {
-        agentId: 'leonardo',
-        reason: 'coordination complete'
-      });
+      // Release floor only if Leonardo currently has it
+      const currentSpeaker = this.floorManager.getCurrentSpeaker();
+      if (currentSpeaker === 'leonardo') {
+        await this.floorManager.yieldFloor('leonardo');
+        
+        // Emit floor yielded event
+        this.emitProtocolEvent('floor_yielded', {
+          agentId: 'leonardo',
+          reason: 'coordination complete'
+        });
+      }
       
       return responseMessage;
     } catch (error) {
@@ -542,6 +545,94 @@ export class DemoSquadManager {
    * Process a truly natural conversation using Open Floor Protocol
    * Agents decide organically when to contribute based on their personality and expertise
    */
+  async processNaturalConversationStreaming(content: string, onMessage: (message: DemoMessage) => void): Promise<void> {
+    if (!this.isInitialized) {
+      throw new Error('Squad not initialized. Call initialize() first.');
+    }
+
+    try {
+      console.log('\n🌟 Starting natural multi-agent conversation...');
+      console.log(`📝 User input: "${content}"`);
+      
+      // Start the natural conversation
+      const conversationId = await this.naturalConversationManager.startNaturalConversation(content, 'mission-planning');
+      
+      // Poll for new messages and stream them as they arrive
+      const startTime = Date.now();
+      const maxDuration = 15000; // 15 seconds max
+      const pollInterval = 500; // Check every 500ms
+      let lastMessageCount = 0;
+      
+      const pollForMessages = async () => {
+        while (Date.now() - startTime < maxDuration) {
+          // Get current conversation messages
+          const naturalMessages = this.naturalConversationManager.getConversationMessages(conversationId);
+          const agentMessages = naturalMessages.filter(msg => msg.sender !== 'user');
+          
+          // Check if we have new messages to stream
+          if (agentMessages.length > lastMessageCount) {
+            // Stream only the new messages
+            for (let i = lastMessageCount; i < agentMessages.length; i++) {
+              const message = agentMessages[i];
+              
+              const agentNames: { [key: string]: string } = {
+                'leonardo': 'Leonardo',
+                'donatello': 'Donatello', 
+                'raphael': 'Raphael',
+                'michelangelo': 'Michelangelo'
+              };
+
+              const agentColors: { [key: string]: string } = {
+                'leonardo': '#0066cc',
+                'donatello': '#9933cc',
+                'raphael': '#cc3333',
+                'michelangelo': '#ff9900'
+              };
+
+              const demoMessage: DemoMessage = {
+                id: this.generateMessageId(),
+                sender: message.sender,
+                content: message.content,
+                timestamp: new Date().toISOString(),
+                agentName: agentNames[message.sender] || message.sender,
+                agentColor: agentColors[message.sender] || '#666666'
+              };
+
+              this.conversationHistory.push(demoMessage);
+              onMessage(demoMessage);
+              
+              // Also emit this as a protocol event so it appears in the envelope section
+              this.emitProtocolEvent('envelope_created', {
+                envelope: {
+                  id: message.id || this.generateMessageId(),
+                  type: 'dialog',
+                  sender: message.sender,
+                  timestamp: message.timestamp || new Date().toISOString(),
+                  payload: {
+                    text: message.content,
+                    agentName: agentNames[message.sender] || message.sender
+                  }
+                }
+              });
+            }
+            lastMessageCount = agentMessages.length;
+          }
+          
+          // Wait before next poll
+          await new Promise(resolve => setTimeout(resolve, pollInterval));
+        }
+      };
+      
+      await pollForMessages();
+      
+      console.log(`✅ Natural conversation completed with ${lastMessageCount} agent contributions`);
+      
+    } catch (error) {
+      console.error('Error in natural conversation:', error);
+      throw error;
+    }
+  }
+
   async processNaturalConversation(content: string): Promise<DemoMessage[]> {
     if (!this.isInitialized) {
       throw new Error('Squad not initialized. Call initialize() first.');
