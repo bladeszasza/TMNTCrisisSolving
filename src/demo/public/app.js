@@ -108,6 +108,9 @@ class SquadDemoInterface {
             case 'protocol_stats':
                 this.updateProtocolStats(data.data);
                 break;
+            case 'comics_generated':
+                this.handleComicsGenerated(data.data);
+                break;
             case 'error':
                 this.showError(data.data.message);
                 break;
@@ -148,36 +151,6 @@ class SquadDemoInterface {
             });
         });
 
-        // Sample problems modal
-        const modal = document.getElementById('samples-modal');
-        const closeBtn = modal.querySelector('.close');
-        
-        // Show samples on empty input focus
-        messageInput.addEventListener('focus', () => {
-            if (!messageInput.value.trim()) {
-                modal.style.display = 'block';
-            }
-        });
-        
-        closeBtn.addEventListener('click', () => {
-            modal.style.display = 'none';
-        });
-        
-        window.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.style.display = 'none';
-            }
-        });
-
-        // Sample problem buttons
-        document.querySelectorAll('.sample-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const problem = e.target.dataset.problem;
-                messageInput.value = problem;
-                modal.style.display = 'none';
-                messageInput.focus();
-            });
-        });
 
         // Protocol control buttons
         document.getElementById('simulate-discovery-btn').addEventListener('click', () => {
@@ -195,6 +168,10 @@ class SquadDemoInterface {
 
         document.getElementById('export-events-btn').addEventListener('click', () => {
             this.exportProtocolEvents();
+        });
+
+        document.getElementById('view-comics-btn').addEventListener('click', () => {
+            this.generateComicsView();
         });
     }
 
@@ -502,6 +479,83 @@ class SquadDemoInterface {
             agentName: 'System',
             agentColor: '#dc3545'
         });
+    }
+
+    generateComicsView() {
+        // Check if we have any conversation messages to generate comics from
+        const conversationMessages = this.messageHistory.filter(msg => 
+            msg.sender !== 'system' && msg.sender !== 'user'
+        );
+
+        if (conversationMessages.length === 0) {
+            this.showError('🎭 Cowabunga! We need some turtle conversation first! Send a message to the squad, then try View Comics again.');
+            return;
+        }
+
+        // Create user message from the last user input or use a default crisis scenario
+        const userMessage = this.messageHistory.find(msg => msg.sender === 'user')?.content || 
+                          'Emergency! We need the turtle squad to help with a radical crisis!';
+
+        // Send request to server to generate HTML showcase
+        if (this.isConnected && this.ws) {
+            this.addMessage({
+                id: 'comics-gen-' + Date.now(),
+                sender: 'system',
+                content: '🎭 Cowabunga! Generating comic book showcase... This will take a few seconds to create your totally tubular HTML experience!',
+                timestamp: new Date().toISOString(),
+                agentName: 'Comics Generator',
+                agentColor: '#ff9900'
+            });
+
+            this.ws.send(JSON.stringify({ 
+                type: 'generate_comics',
+                content: userMessage,
+                messages: conversationMessages
+            }));
+        } else {
+            this.showError('🐢 Not connected to the squad server. Cannot generate comics view.');
+        }
+    }
+
+    handleComicsGenerated(data) {
+        if (data.success) {
+            this.addMessage({
+                id: 'comics-success-' + Date.now(),
+                sender: 'system',
+                content: `🎭 Cowabunga! Comic book showcase generated successfully! ${data.messageCount} turtle contributions have been transformed into an awesome comic book experience! Check your output folder: ${data.htmlPath}`,
+                timestamp: new Date().toISOString(),
+                agentName: 'Comics Generator',
+                agentColor: '#28a745'
+            });
+
+            // Try to open the HTML file in browser
+            const fileUrl = `file://${window.location.pathname.replace('/index.html', '').replace('public', '')}output/${data.htmlPath.split('/').pop()}`;
+            
+            // Create a downloadable link for the user
+            const link = document.createElement('a');
+            link.href = fileUrl;
+            link.target = '_blank';
+            link.textContent = '🎭 Open Comics Showcase';
+            link.style.cssText = `
+                display: inline-block;
+                margin: 10px 0;
+                padding: 8px 15px;
+                background: linear-gradient(135deg, #ff9900, #cc3333);
+                color: white;
+                text-decoration: none;
+                border-radius: 5px;
+                font-weight: bold;
+            `;
+            
+            // Add the link to the last message
+            const lastMessage = document.querySelector('.message:last-child .message-content');
+            if (lastMessage) {
+                lastMessage.appendChild(document.createElement('br'));
+                lastMessage.appendChild(link);
+            }
+        } else {
+            this.showError(`🎭 Failed to generate comics: ${data.error}`);
+        }
     }
 }
 

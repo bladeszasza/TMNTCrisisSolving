@@ -367,6 +367,17 @@ body {
     transform: translateY(0);
 }
 
+.comics-btn {
+    background: linear-gradient(135deg, var(--michelangelo-color) 0%, var(--raphael-color) 100%);
+    border-color: var(--michelangelo-color);
+    font-weight: bold;
+}
+
+.comics-btn:hover {
+    background: linear-gradient(135deg, var(--raphael-color) 0%, var(--michelangelo-color) 100%);
+    border-color: var(--raphael-color);
+}
+
 .protocol-tabs {
     display: flex;
     margin-bottom: 20px;
@@ -561,64 +572,6 @@ body {
 .status-indicator.connecting {
     color: var(--warning-color);
     animation: pulse 1s infinite;
-}
-
-/* Modal */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
-}
-
-.modal-content {
-    background-color: var(--bg-secondary);
-    margin: 15% auto;
-    padding: 20px;
-    border-radius: 10px;
-    width: 80%;
-    max-width: 600px;
-    position: relative;
-}
-
-.close {
-    color: var(--text-secondary);
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.close:hover {
-    color: var(--text-primary);
-}
-
-.sample-problems {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 15px;
-    margin-top: 20px;
-}
-
-.sample-btn {
-    padding: 15px;
-    background: var(--bg-tertiary);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    color: var(--text-primary);
-    cursor: pointer;
-    font-family: inherit;
-    text-align: left;
-    transition: all 0.2s;
-}
-
-.sample-btn:hover {
-    background: var(--leonardo-color);
-    transform: translateY(-2px);
 }
 
 /* Responsive Design */

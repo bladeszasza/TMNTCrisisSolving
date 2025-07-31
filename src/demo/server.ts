@@ -10,6 +10,7 @@ import { createServer } from 'http';
 import { WebSocketServer } from 'ws';
 import cors from 'cors';
 import path from 'path';
+import { exec } from 'child_process';
 import { DemoSquadManager } from './DemoSquadManager';
 
 const app = express();
@@ -81,6 +82,9 @@ wss.on('connection', (ws) => {
           break;
         case 'simulate_discovery':
           squadManager.simulateAgentDiscovery();
+          break;
+        case 'generate_comics':
+          await handleComicsGeneration(data.content, data.messages, ws);
           break;
         default:
           console.log('Unknown message type:', data.type);
@@ -168,6 +172,69 @@ async function handleUserMessage(content: string, ws: any) {
     ws.send(JSON.stringify({
       type: 'error',
       data: { message: 'Failed to process user message' }
+    }));
+  }
+}
+
+async function handleComicsGeneration(content: string, messages: any[], ws: any) {
+  try {
+    console.log('🎭 Generating comics showcase from existing conversation...');
+    
+    // Create the title based on content
+    const title = 'TEENAGE MUTANT NINJA TURTLES: CRISIS SQUAD SHOWCASE';
+    const outputDir = './output';
+    
+    // Use the squad manager to generate HTML showcase from existing messages
+    const result = await squadManager.generateHTMLFromExistingMessages(title, outputDir, messages);
+    
+    // Send success response with file path
+    ws.send(JSON.stringify({
+      type: 'comics_generated',
+      data: {
+        success: true,
+        htmlPath: result.htmlPath,
+        messageCount: result.messages.length
+      }
+    }));
+    
+    // Broadcast the generated comics info to all clients
+    broadcastToAll({
+      type: 'protocol_event',
+      data: {
+        type: 'comics_showcase_generated',
+        timestamp: new Date().toISOString(),
+        data: {
+          htmlPath: result.htmlPath,
+          agentContributions: result.messages.length,
+          title: title
+        }
+      }
+    });
+    
+    console.log(`✅ Comics showcase generated: ${result.htmlPath}`);
+    
+    // Auto-open the generated HTML file in browser like test-natural-conversation.ts
+    const absolutePath = path.resolve(result.htmlPath);
+    const command = process.platform === 'darwin' ? 'open' : 
+                   process.platform === 'win32' ? 'start' : 'xdg-open';
+    
+    exec(`${command} "${absolutePath}"`, (error) => {
+      if (error) {
+        console.log('⚠️  Could not auto-open browser. Please open the file manually:');
+        console.log(`   file://${absolutePath}`);
+      } else {
+        console.log('✅ Opened HTML showcase in browser!');
+      }
+    });
+    
+  } catch (error) {
+    console.error('Error generating comics:', error);
+    ws.send(JSON.stringify({
+      type: 'comics_generated',
+      data: {
+        success: false,
+        error: 'Failed to generate comics showcase'
+      }
     }));
   }
 }

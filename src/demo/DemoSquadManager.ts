@@ -687,4 +687,34 @@ export class DemoSquadManager {
     }
   }
 
+  /**
+   * Generate HTML showcase from existing conversation messages
+   * This avoids re-running the conversation and uses messages already exchanged
+   */
+  async generateHTMLFromExistingMessages(
+    title: string, 
+    outputDir: string,
+    existingMessages: DemoMessage[]
+  ): Promise<{ messages: DemoMessage[]; htmlPath: string }> {
+    if (!this.isInitialized) {
+      throw new Error('Squad not initialized. Call initialize() first.');
+    }
+
+    console.log('🎭 Generating HTML showcase from existing conversation...');
+    
+    // Create ConversationSession with proper structure
+    const session: ConversationSession = {
+      id: `comics_session_${Date.now()}`,
+      title,
+      userMessage: 'Crisis scenario processed by the squad',
+      timestamp: new Date(),
+      messages: existingMessages, // existingMessages are already DemoMessage[]
+      aiEnabled: this.isAIEnabled,
+      duration: undefined
+    };
+
+    const htmlPath = await ConversationHTMLGenerator.saveToFile(session, outputDir);
+    return { messages: existingMessages, htmlPath };
+  }
+
 }
