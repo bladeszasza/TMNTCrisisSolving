@@ -1,7 +1,7 @@
 # 🐢 Cowabunga Crisis Squad v1.0
-## *The Ultimate Multi-Agent AI Conversation System*
+## *The Multi-Agent AI Conversation System*
 
-> **Heroes in a Half-Shell meet Cutting-Edge AI!** Experience the turtle future of multi-agent conversations through the legendary Teenage Mutant Ninja Turtles, powered by the revolutionary OpenFloor Protocol.
+> **Heroes in a Half-Shell meet AI!** Experience the turtle future of multi-agent conversations through the legendary Teenage Mutant Ninja Turtles, powered by the OpenFloor Protocol.
 
 [![OpenFloor Protocol](https://img.shields.io/badge/OpenFloor-Protocol%20v1.0-00ff00)](https://openfloor.dev/)
 [![Version](https://img.shields.io/badge/version-1.0.0-blue)](https://github.com/bladeszasza/TMNTCrisisSolving/)
