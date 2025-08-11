@@ -48,6 +48,8 @@ graph TB
     style V fill:#54a0ff
 ```
 
+**Lucid Chart Prompt**: Create a conversation flow diagram with 4 main phases arranged vertically: 1) INITIALIZATION PHASE (red background) containing User → DemoSquadManager → AISquadInitializer → HybridAIService and Agent Registration → Discovery Service → Floor Manager, 2) CRISIS INPUT PHASE (green background) with User Crisis Message → Natural Conversation Manager → AI Interest Analysis → Agent Decision diamond (Interested/Not Interested paths), 3) FLOOR MANAGEMENT CYCLE (yellow background) showing Request Floor → Priority Queue → Grant Floor → Generate Response → Send Message → Yield Floor → "More Agents?" decision diamond (Yes loops back, No continues), 4) OUTPUT GENERATION (blue background) with Generate HTML → Conversation Statistics → Comic Book HTML → Auto-Open Browser → Visual Showcase. Use connecting arrows between all elements and apply the specified colors: User=#ff6b6b, DemoSquadManager=#4ecdc4, HybridAIService=#45b7d1, Crisis Input=#96ceb4, Grant Floor=#feca57, Generate Response=#ff9ff3, Comic Book HTML=#54a0ff.
+
 ---
 
 ## 🔄 **Detailed Flow Breakdown**
@@ -129,6 +131,8 @@ sequenceDiagram
     Mikey->>NCM: "I'm interested (Priority: NORMAL)"
 ```
 
+**Lucid Chart Prompt**: Create a sequence diagram with 8 vertical lanes for User, Natural Conversation Manager (NCM), Leonardo, Donatello, Raphael, Michelangelo, and AI Service. Show the following interaction flow: User sends "Operation Retro Doom crisis!" to NCM, then NCM simultaneously queries each turtle about interest level. Each turtle sends their expertise question to AI Service and receives responses. Leonardo asks "Is this relevant to leadership?" and gets "YES - Multiple threats need coordination", responds with "I'm interested (Priority: LEADER)". Donatello asks about tech relevance and gets arcade/VHS response, responds with HIGH priority. Raphael asks about combat and gets Foot Clan response, responds with HIGH priority. Michelangelo asks about morale and gets team motivation response, responds with NORMAL priority. Use dashed lines for return messages and solid lines for requests. Color-code the turtle lanes: Leonardo=#0066cc, Donatello=#9933cc, Raphael=#cc3333, Michelangelo=#ff9900.
+
 **🧠 AI Decision Logic:**
 ```typescript
 async gatherAgentInterest(conversationId: string, message: string) {
@@ -165,6 +169,8 @@ stateDiagram-v2
     FloorGranted --> FloorRevoked: Timeout/Error
     FloorRevoked --> FloorIdle: Cleanup
 ```
+
+**Lucid Chart Prompt**: Create a state transition diagram showing OpenFloor Protocol floor management states. Start with an initial state node connected to "FloorIdle: System Ready". From FloorIdle, transition to "FloorRequested: Agent requests floor" when agent requests. From FloorRequested, create two paths: "FloorGranted: Priority check passes" and "FloorQueued: Higher priority agent active". From FloorQueued, arrow to FloorGranted labeled "Previous agent yields". From FloorGranted, flow to "ResponseGeneration: AI processes context", then "MessageSent: Response ready", then "FloorYielded: Agent completes turn", then decision diamond "Next agent or completion?" with arrow back to FloorIdle. Add error path: FloorGranted to "FloorRevoked: Timeout/Error" which returns to FloorIdle with "Cleanup" label. Use rounded rectangles for states, diamond for decision, and different colors: FloorIdle=#lightblue, FloorRequested=#yellow, FloorGranted=#lightgreen, ResponseGeneration=#orange, FloorRevoked=#red.
 
 **🔄 Floor Management Events:**
 ```typescript
@@ -259,6 +265,8 @@ graph LR
     I --> H
     F --> I
 ```
+
+**Lucid Chart Prompt**: Create a flowchart showing error handling and recovery flow. Start with "AI Service Call" rectangle, connect to diamond "Success?". From Success=Yes, go to "Validate 90s Authenticity" rectangle. From Success=No, go to "Try Fallback AI" rectangle, then to diamond "Success?". From second Success=Yes, connect to "Validate 90s Authenticity". From second Success=No, go to "Use Personality Fallback". From "Validate 90s Authenticity", connect to diamond "Authentic?". From Authentic=Yes, go to "Send Response". From Authentic=No, go to "Add Personality Flair", then to "Send Response". Also connect "Use Personality Fallback" to "Add Personality Flair". Use rectangles for processes, diamonds for decisions, and color-code: AI calls=#lightblue, validation=#yellow, fallbacks=#orange, final output=#lightgreen.
 
 ### ⏱️ **Timeout Protection**
 
