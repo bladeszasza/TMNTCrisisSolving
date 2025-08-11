@@ -142,7 +142,7 @@ export class LeonardoLeaderAgent extends BaseSquadAgent {
       // Generate AI-powered initial leadership message
       const initialMessage = await this.generateAIResponse(
         problem.description,
-        `As Leonardo, the leader of the Cowabunga Crisis Squad, I need to coordinate the team to tackle this ${problem.category} problem with ${problem.complexity} complexity. I should announce our approach and show leadership.`
+        `As Leonardo, the leader of the Cowabunga Crisis Squad, I need to coordinate the team to tackle this ${problem.category} problem with ${problem.complexity} complexity. I should announce our approach and show leadership. Then let the other speak up, comment if my experties are relevant, and synergyze the team at the end.`
       );
       
       await this.sendMessage(initialMessage);
@@ -166,7 +166,7 @@ export class LeonardoLeaderAgent extends BaseSquadAgent {
       // Create squad response with AI-generated content
       const leadResponse = await this.generateAIResponse(
         problem.description,
-        `As the leader, I need to provide the main coordinated response for this ${problem.category} problem.`
+        `As the leader, I need to provide the main coordinated response for this ${problem.category} problem. Then politly let the others speak up.`
       );
       
       const squadResponse: SquadResponse = {
@@ -271,7 +271,7 @@ export class LeonardoLeaderAgent extends BaseSquadAgent {
       .map(result => result.contribution);
 
     if (successfulContributions.length === 0) {
-      return "Team, let's focus! Even without all contributions, we can tackle this together. Cowabunga!";
+      return "Team, let's focus! We can tackle this together. Cowabunga!";
     }
 
     // Combine insights from different expertise areas

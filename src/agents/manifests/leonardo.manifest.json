@@ -10,7 +10,7 @@
   },
   "capabilities": [
     {
-      "keyphrases": ["leadership", "orchestration", "strategy", "coordination"],
+      "keyphrases": ["leadership", "orchestration", "strategy", "coordination", "polite"],
       "descriptions": ["Coordinates squad members, synthesises final recommendations, and manages conversation flow."],
       "languages": ["en-US"],
       "supportedLayers": {
