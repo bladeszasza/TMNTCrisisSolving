@@ -2,7 +2,7 @@
 
 ## System Overview
 
-The Natural Conversation Test Suite (TMNT Crisis Squad) is a sophisticated multi-agent conversational AI system that demonstrates Open Floor Protocol (OFP) capabilities through four specialized agents with authentic 90s cartoon personalities. The system enables natural, organic conversations between AI agents while maintaining professional-grade architecture and comprehensive protocol compliance.
+The Natural Conversation Test Suite (TMNT Crisis Squad) is a multi-agent conversational AI system that demonstrates Open Floor Protocol (OFP) capabilities through four specialized agents with 90s cartoon personalities. The system enables natural conversations between AI agents while maintaining protocol compliance.
 
 ## High-Level Architecture
 
@@ -53,9 +53,9 @@ graph TB
         CLAUDE[Anthropic Claude API]
     end
     
-    UI --> DSM
-    HTML --> DSM
-    CLI --> DSM
+   DSM --> UI
+   DSM --> HTML
+   CLI --> DSM
     
     DSM --> NCM
     DSM --> ASI
@@ -81,7 +81,7 @@ graph TB
     BASE --> VALID
     ASI --> CONFIG
     
-    OFA --> OFP
+    OFP --> OFA
     GAS --> GEMINI
     CAS --> CLAUDE
     
@@ -100,7 +100,7 @@ graph TB
 ## Core Architecture Principles
 
 ### 1. Open Floor Protocol Compliance
-- **100% Standards Adherence**: Full implementation of OFP conversation envelopes, floor management, and agent discovery
+- **Standards Adherence**: Implementation of OFP conversation envelopes, floor management, and agent discovery
 - **Event-Driven Architecture**: All agent communication flows through standardized protocol events
 - **Interoperability Focus**: Designed for seamless integration with other OFP-compliant systems
 
@@ -122,7 +122,7 @@ graph TB
 ## Key Components Deep Dive
 
 ### DemoSquadManager (`src/demo/DemoSquadManager.ts`)
-**Primary Orchestrator** - Coordinates all system components and manages conversation lifecycle.
+**Orchestrator** - Coordinates all system components and manages conversation lifecycle.
 
 **Responsibilities:**
 - Initialize and coordinate all system components
@@ -152,7 +152,7 @@ graph TB
 5. **Recursive Flow**: Allow responses to trigger further responses naturally
 
 ### FloorManager (`src/protocol/FloorManager.ts`)
-**Protocol Engine** - Implements Open Floor Protocol floor management with advanced features.
+**Protocol Engine** - Implements Open Floor Protocol floor management with additional features.
 
 **Features:**
 - **Priority-Based Queuing**: Leonardo (leader) gets highest priority
@@ -194,8 +194,8 @@ graph TB
 
 **Benefits:**
 - **High Availability**: System continues operating during AI service outages
-- **Cost Optimization**: Intelligent usage patterns to minimize API costs
-- **Quality Assurance**: Multiple AI providers ensure response diversity
+- **Cost Management**: Intelligent usage patterns to manage API costs
+- **Response Diversity**: Multiple AI providers ensure varied responses
 
 ## Data Flow Architecture
 
@@ -300,9 +300,9 @@ The system maintains several types of state:
 
 ### Scalability Considerations
 - **Agent Capacity**: Supports 4-10 agents with current architecture
-- **Conversation Length**: Handles 20+ message exchanges efficiently
+- **Conversation Length**: Handles 20+ message exchanges
 - **Concurrent Conversations**: Multiple conversation threads supported
-- **Memory Usage**: Optimized for long-running conversations
+- **Memory Usage**: Designed for long-running conversations
 
 ### Reliability Features
 - **Error Recovery**: Multi-layer fallback mechanisms
@@ -360,7 +360,7 @@ src/
 1. **Multi-Modal Support**: Audio and video conversation capabilities
 2. **Persistent Storage**: Conversation history and learning capabilities
 3. **Scale-Out Architecture**: Support for 20+ agents in conversations
-4. **Advanced Analytics**: Conversation quality metrics and insights
+4. **Analytics**: Conversation quality metrics and insights
 
 ### Extension Points
 1. **Agent Plugins**: Dynamic agent loading and capability extension

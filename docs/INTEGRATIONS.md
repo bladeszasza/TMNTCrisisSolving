@@ -1,6 +1,6 @@
 # Integration Guide
 
-This guide provides essential information for integrating with or extending the Natural Conversation Test Suite.
+This guide provides information for integrating with or extending the Natural Conversation Test Suite.
 
 ## AI Service Integration
 
@@ -168,4 +168,4 @@ Basic performance metrics are available through the health endpoint.
 
 ---
 
-This integration guide covers the essential patterns for extending or integrating with the Natural Conversation Test Suite system.
+This integration guide covers patterns for extending or integrating with the Natural Conversation Test Suite system.
