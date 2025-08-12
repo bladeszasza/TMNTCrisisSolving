@@ -1,15 +1,3 @@
-/**
- * OpenFloorAdapter - Bridge between Cowabunga Crisis Squad and Official Open Floor Protocol
- * Replaces the mock implementation with proper OFP compliance
- */
-
-import { 
-  createTextUtterance,
-  createBasicManifest,
-  Envelope,
-  DialogEvent,
-  Manifest
-} from '@openfloor/protocol';
 import { PersonalityConfig, ExpertiseArea } from '../utils/types';
 
 export interface OFPAgentManifest {
@@ -154,6 +142,7 @@ export class OpenFloorAdapter {
       }
     };
   }
+
 
   /**
    * Create floor management message

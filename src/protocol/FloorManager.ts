@@ -4,7 +4,6 @@
  */
 
 import { ConversationEnvelopeHandler } from './ConversationEnvelopeHandler';
-import { OFPEventType as EventType } from './OpenFloorAdapter';
 import { Priority, FloorRequest, FloorTransition } from '../utils/types';
 
 export interface FloorManagerConfig {

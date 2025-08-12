@@ -3,7 +3,7 @@
  */
 
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { AgentDiscoveryService, CapabilityFilter, ProblemType, DynamicAgentRegistrationConfig, AgentValidationResult } from './AgentDiscoveryService';
+import { AgentDiscoveryService, DynamicAgentRegistrationConfig } from './AgentDiscoveryService';
 import { ConversationEnvelopeHandler } from './ConversationEnvelopeHandler';
 import { SquadAgentManifest, ExpertiseArea, SpeakingStyle, CollaborationPattern, ProblemCategory } from '../utils/types';
 

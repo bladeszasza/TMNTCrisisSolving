@@ -3,17 +3,12 @@
  * Enables agents to work in parallel on different aspects of problems
  */
 
-import { Envelope as ConversationEnvelope } from '@openfloor/protocol';
 import { OFPEventType as EventType } from './OpenFloorAdapter';
 import { FloorManager } from './FloorManager';
 import { ConversationEnvelopeHandler } from './ConversationEnvelopeHandler';
 import { CollaborationPatternManager } from './CollaborationPatterns';
 import {
-  UserProblem,
   AgentContribution,
-  ExpertiseArea,
-  Priority,
-  CollaborationPattern
 } from '../utils/types';
 
 export interface ConversationThread {

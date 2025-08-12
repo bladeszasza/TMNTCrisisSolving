@@ -3,7 +3,6 @@
  * Supports orchestration, delegation, mediation, and channeling patterns
  */
 
-import { Envelope as ConversationEnvelope } from '@openfloor/protocol';
 import { OFPEventType as EventType } from './OpenFloorAdapter';
 import { FloorManager } from './FloorManager';
 import { ConversationEnvelopeHandler } from './ConversationEnvelopeHandler';

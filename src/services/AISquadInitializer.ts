@@ -4,8 +4,6 @@
  */
 
 import dotenv from 'dotenv';
-import { GeminiAIService, GeminiConfig } from './GeminiAIService';
-import { ClaudeAIService, ClaudeConfig } from './ClaudeAIService';
 import { HybridAIService, HybridAIConfig } from './HybridAIService';
 import { LeonardoLeaderAgent } from '../agents/LeonardoLeaderAgent';
 import { DonatelloTechAgent } from '../agents/DonatelloTechAgent';

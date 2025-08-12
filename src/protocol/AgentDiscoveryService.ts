@@ -4,8 +4,6 @@
  */
 
 import { ConversationEnvelopeHandler } from './ConversationEnvelopeHandler';
-import { OFPEventType as EventType } from './OpenFloorAdapter';
-import { Manifest as AgentManifest } from '@openfloor/protocol';
 import { OpenFloorAdapter, OFPAgentManifest } from './OpenFloorAdapter';
 import { SquadAgentManifest, ProblemCategory, ExpertiseArea, CollaborationPattern } from '../utils/types';
 

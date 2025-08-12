@@ -3,7 +3,7 @@
  * Extends Open Floor's BotAgent with squad-specific functionality
  */
 
-import { BotAgent, Envelope as ConversationEnvelope, Manifest as AgentManifest } from '@openfloor/protocol';
+import { BotAgent, Envelope as ConversationEnvelope } from '@openfloor/protocol';
 import { OFPEventType as EventType } from '../../protocol/OpenFloorAdapter';
 import { OpenFloorAdapter, OFPAgentManifest } from '../../protocol/OpenFloorAdapter';
 import { FloorManager } from '../../protocol/FloorManager';

@@ -3,7 +3,7 @@
  * Handles creation, validation, and routing of conversation envelopes for all event types
  */
 
-import { Envelope as ConversationEnvelope, createSimpleEnvelope, createTextUtterance } from '@openfloor/protocol';
+import { Envelope as ConversationEnvelope } from '@openfloor/protocol';
 import { OFPEventType as EventType, OpenFloorAdapter } from './OpenFloorAdapter';
 import { DialogEvent } from '@openfloor/protocol';
 // Mock UUID implementation for development
